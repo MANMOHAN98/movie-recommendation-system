@@ -7,12 +7,12 @@ movies = pd.read_csv('../data/movies.csv')
 ratings = pd.read_csv('../data/ratings.csv')
 movie_ratings = pd.merge(ratings, movies, on='movieId')
 
-# Collaborative Filtering
+
 user_movie_matrix = movie_ratings.pivot_table(index='userId', columns='title', values='rating').fillna(0)
 similarity_matrix = cosine_similarity(user_movie_matrix.T)
 movie_similarity_df = pd.DataFrame(similarity_matrix, index=user_movie_matrix.columns, columns=user_movie_matrix.columns)
 
-# Content-Based Filtering
+
 tfidf = TfidfVectorizer(stop_words='english')
 tfidf_matrix = tfidf.fit_transform(movies['genres'])
 content_sim_matrix = cosine_similarity(tfidf_matrix, tfidf_matrix)
